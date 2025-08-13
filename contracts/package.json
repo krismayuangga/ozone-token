@@ -1,0 +1,28 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "deploy:local": "hardhat run scripts/deploy-complete.js --network hardhat",
+    "deploy:testnet": "hardhat run scripts/deploy-complete.js --network bscTestnet",
+    "deploy:mainnet": "hardhat run scripts/deploy-complete.js --network bsc",
+    "node": "hardhat node",
+    "verify:testnet": "hardhat verify --network bscTestnet",
+    "setup-guide": "cat scripts/setup-guide.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
+    "hardhat": "^2.26.3"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0",
+    "dotenv": "^17.2.1"
+  }
+}

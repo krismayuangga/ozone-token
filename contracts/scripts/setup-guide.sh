@@ -1,0 +1,33 @@
+#!/bin/bash
+echo "🔧 OZONE Smart Contract Deployment Configuration"
+echo "================================================"
+echo ""
+
+echo "📋 Untuk deploy ke BSC Testnet, Anda memerlukan:"
+echo ""
+echo "1. 🔑 Private Key"
+echo "   - Dari MetaMask: Settings > Security & Privacy > Export Private Key"
+echo "   - PERINGATAN: Jangan bagikan private key ini!"
+echo ""
+echo "2. 💰 BNB Testnet"  
+echo "   - Dapatkan dari faucet: https://testnet.binance.org/faucet-smart"
+echo "   - Minimal 0.1 BNB untuk gas fees"
+echo ""
+echo "3. 🌐 Network Configuration"
+echo "   - BSC Testnet sudah dikonfigurasi di hardhat.config.js"
+echo ""
+
+echo "🎯 Langkah Setup .env:"
+echo "1. Copy .env.example ke .env"
+echo "2. Edit PRIVATE_KEY dengan private key Anda (tanpa 0x prefix)"
+echo "3. Jalankan: npm run deploy:testnet"
+echo ""
+
+echo "⚠️  KEAMANAN:"
+echo "- File .env sudah ditambahkan ke .gitignore"
+echo "- Jangan commit private key ke repository"
+echo "- Gunakan wallet terpisah untuk development"
+echo ""
+
+echo "🚀 Ready to deploy? Edit .env file dan jalankan:"
+echo "npm run deploy:testnet"

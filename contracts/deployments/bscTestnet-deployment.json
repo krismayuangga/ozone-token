@@ -1,0 +1,21 @@
+{
+  "network": "bscTestnet",
+  "timestamp": "2025-08-13T08:31:02.699Z",
+  "deployer": "0x5ACb28365aF47A453a14FeDD5f72cE502224F30B",
+  "contracts": {
+    "OZONE": {
+      "address": "0x8aE086CA4E4e24b616409c69Bd2bbFe7262AEe59",
+      "name": "OZONE",
+      "symbol": "OZONE",
+      "totalSupply": "1000000000000000000000000000"
+    },
+    "OzoneStaking": {
+      "address": "0x6CbDdD8BD2072263291ddfF8d5760c36fDA08A26",
+      "tokenAddress": "0x8aE086CA4E4e24b616409c69Bd2bbFe7262AEe59"
+    }
+  },
+  "gasUsed": {
+    "ozoneToken": "Estimated",
+    "ozoneStaking": "Estimated"
+  }
+}

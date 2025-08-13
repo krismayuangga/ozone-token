@@ -1,0 +1,10 @@
+{
+  "contracts": {
+    "OZONE": "0x8aE086CA4E4e24b616409c69Bd2bbFe7262AEe59",
+    "OzoneStaking": "0x6CbDdD8BD2072263291ddfF8d5760c36fDA08A26"
+  },
+  "network": {
+    "name": "bscTestnet",
+    "chainId": 97
+  }
+}

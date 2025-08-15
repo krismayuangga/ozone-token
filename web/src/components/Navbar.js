@@ -41,7 +41,8 @@ const Navbar = () => {
     isAuthenticated,
     isConnecting, 
     connectWallet, 
-    logout 
+    logout,
+    ozoneBalance
   } = useAuth();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -80,7 +81,14 @@ const Navbar = () => {
         background: 'rgba(15, 23, 42, 0.9)',
         backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(45, 212, 191, 0.2)',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+        '@media (max-width: 768px)': {
+          '& .MuiToolbar-root': {
+            paddingLeft: '8px',
+            paddingRight: '8px',
+            minHeight: '56px'
+          }
+        }
       }}
     >
       <Toolbar>
@@ -88,10 +96,12 @@ const Navbar = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
           <Avatar sx={{ 
             bgcolor: '#2DD4BF',
-            mr: 2,
+            mr: { xs: 1, sm: 2 },
+            width: { xs: 32, sm: 40 },
+            height: { xs: 32, sm: 40 },
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
           }}>
-            <Business />
+            <Business sx={{ fontSize: { xs: 18, sm: 24 } }} />
           </Avatar>
           <Box sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
             <Typography variant="h5" sx={{ 
@@ -201,8 +211,16 @@ const Navbar = () => {
                   color: '#2DD4BF',
                   fontWeight: 600
                 }}>
-                  {formatNumber(user?.totalStaked || 0)} OZONE
+                  {formatNumber(ozoneBalance)} OZONE
                 </Typography>
+                {ozoneBalance === '0.00' && (
+                  <Typography variant="caption" sx={{ 
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    fontSize: '0.7rem'
+                  }}>
+                    ⚠️ Get OZONE tokens first
+                  </Typography>
+                )}
                 <Typography variant="body2" sx={{ 
                   color: 'rgba(255, 255, 255, 0.7)',
                   fontSize: '0.8rem'
@@ -243,8 +261,17 @@ const Navbar = () => {
               >
                 <Box sx={{ p: 2, borderBottom: '1px solid rgba(45, 212, 191, 0.2)' }}>
                   <Typography variant="body2" sx={{ color: '#2DD4BF' }}>
-                    {formatNumber(user?.totalStaked || 0)} OZONE
+                    {formatNumber(ozoneBalance)} OZONE
                   </Typography>
+                  {ozoneBalance === '0.00' && (
+                    <Typography variant="caption" sx={{ 
+                      color: 'rgba(255, 255, 255, 0.5)',
+                      display: 'block',
+                      mt: 0.5
+                    }}>
+                      ⚠️ No OZONE tokens found
+                    </Typography>
+                  )}
                   <Typography variant="body2" sx={{ color: 'white' }}>
                     {shortenAddress(user?.walletAddress)}
                   </Typography>

@@ -145,6 +145,49 @@ router.put('/profile', auth, [
   }
 });
 
+// @route   GET /api/v1/user/stats
+// @desc    Get user statistics
+// @access  Private
+router.get('/stats', auth, async (req, res) => {
+  try {
+    const userStats = await database.getUserStats(req.user.walletAddress);
+    
+    if (!userStats) {
+      // Return default stats for new users
+      return res.json({
+        success: true,
+        data: {
+          totalStaked: 0,
+          totalRewards: 0,
+          totalStakes: 0,
+          activeStakes: 0,
+          activeStakedAmount: 0,
+          pendingRewards: 0
+        }
+      });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        totalStaked: parseFloat(userStats.total_staked || 0),
+        totalRewards: parseFloat(userStats.total_rewards || 0),
+        totalStakes: parseInt(userStats.total_stakes || 0),
+        activeStakes: parseInt(userStats.active_stakes || 0),
+        activeStakedAmount: parseFloat(userStats.active_staked_amount || 0),
+        pendingRewards: parseFloat(userStats.pending_rewards || 0)
+      }
+    });
+
+  } catch (error) {
+    console.error('Get user stats error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
 // @route   GET /api/v1/user/stakes
 // @desc    Get user's stakes
 // @access  Private

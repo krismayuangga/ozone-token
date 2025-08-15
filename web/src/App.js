@@ -5,7 +5,7 @@ import { CssBaseline, Box } from '@mui/material';
 import { AuthProvider } from './hooks/useAuth';
 import { ozoneTheme } from './theme/ozoneTheme';
 import Navbar from './components/Navbar';
-import UserDashboard from './components/UserDashboard';
+import MainContent from './components/MainContent';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
             <Navbar />
             <Box component="main" sx={{ flexGrow: 1 }}>
               <Routes>
-                <Route path="/" element={<UserDashboard />} />
+                <Route path="/" element={<MainContent />} />
               </Routes>
             </Box>
           </Box>

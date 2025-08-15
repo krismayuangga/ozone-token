@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext, createContext, useCallback } from 'react';
 import { ethers } from 'ethers';
+import blockchainService from '../services/blockchain';
 
 // API Base URL
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api/v1';
@@ -15,6 +16,31 @@ export const AuthProvider = ({ children }) => {
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
   const [account, setAccount] = useState(null);
+  const [ozoneBalance, setOzoneBalance] = useState('0.00');
+
+  // Load OZONE balance
+  const loadOzoneBalance = useCallback(async () => {
+    if (!account || !provider) {
+      setOzoneBalance('0.00');
+      return;
+    }
+
+    try {
+      // Initialize blockchain service if not already done
+      const initSuccess = await blockchainService.init(provider, signer);
+      if (!initSuccess) {
+        console.error('Failed to initialize blockchain service');
+        setOzoneBalance('0.00');
+        return;
+      }
+
+      const balance = await blockchainService.getOzoneBalance(account);
+      setOzoneBalance(parseFloat(balance.formatted).toFixed(2));
+    } catch (error) {
+      console.error('Error loading OZONE balance:', error);
+      setOzoneBalance('0.00');
+    }
+  }, [account, provider, signer]);
 
   // Verify stored token
   const verifyToken = useCallback(async (token) => {
@@ -104,6 +130,12 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('authToken', data.token);
       setUser(data.user);
 
+      // Initialize blockchain service and load balance
+      const initSuccess = await blockchainService.init(provider, signer);
+      if (initSuccess) {
+        await loadOzoneBalance();
+      }
+
       return data.user;
 
     } catch (error) {
@@ -153,6 +185,8 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setAccount(null);
     setSigner(null);
+    setProvider(null);
+    setOzoneBalance('0.00');
   }, []);
 
   // API call with auth
@@ -205,6 +239,8 @@ export const AuthProvider = ({ children }) => {
             const token = localStorage.getItem('authToken');
             if (token) {
               await verifyToken(token);
+              // Load balance after verification
+              await loadOzoneBalance();
             }
           }
         }
@@ -218,6 +254,13 @@ export const AuthProvider = ({ children }) => {
     init();
   }, [verifyToken]);
 
+  // Load balance whenever account or provider changes
+  useEffect(() => {
+    if (account && provider) {
+      loadOzoneBalance();
+    }
+  }, [account, provider, loadOzoneBalance]);
+
   const value = {
     // State
     user,
@@ -227,12 +270,14 @@ export const AuthProvider = ({ children }) => {
     account,
     provider,
     signer,
+    ozoneBalance,
 
     // Methods
     connectWallet,
     logout,
     getCurrentUser,
     apiCall,
+    loadOzoneBalance,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
